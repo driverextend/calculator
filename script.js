@@ -16,25 +16,26 @@ const expression = {
 
         if (this.arr.length != 3) return;
         
-        let left = this.arr[0]
-        let operation = this.arr[1]
-        let right = this.arr[2]
+        const left = this.arr[0]
+        const operation = this.arr[1]
+        const right = this.arr[2]
+        let result;
         
-
         switch (operation) {
             case "÷":
-                this.arr.splice(0,3,"" + +left / +right)
+                result = +left / +right
                 break;
             case "x":
-                this.arr.splice(0,3,"" + +left * +right)
+                result = +left * +right
                 break;
             case "-":
-                this.arr.splice(0,3,"" + +left - +right)
+                result = +left - +right
                 break;
             case "+":
-                this.arr.splice(0,3,"" + +left + +right)
+                result = +left + +right
                 break;
         }        
+        this.arr.splice(0,3,"" + result)
 
     },
 }
@@ -48,23 +49,12 @@ buttons.forEach(button => {
             case "BACKSPACE":
                 expression.backspace()
                 break;
-            case "÷":
-                if (expression.arr.length === 1) expression.arr.push("÷")
-                break;
-            case "x":
-                if (expression.arr.length === 1) expression.arr.push("x")
-                break;
-            case "-":
-                if (expression.arr.length === 1) expression.arr.push("-")
-                break;
-            case "+":
-                if (expression.arr.length === 1) expression.arr.push("+")
-                break;
             case "=":
                 expression.operate()                
                 break;
             default:
-                if (expression.arr.length === 0 || expression.arr.length === 2) expression.arr.push(optionClicked)
+                if (expression.arr.length === 1 && ["÷","x","-","+"].includes(optionClicked)) expression.arr.push(optionClicked)
+                else if (expression.arr.length === 0 || expression.arr.length === 2) expression.arr.push(optionClicked)
                 break;
         }
         currentCalculationString.innerText = expression.toString()
